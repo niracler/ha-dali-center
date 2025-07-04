@@ -1,0 +1,20 @@
+{
+  "domain": "dali_center",
+  "name": "Dali Center",
+  "codeowners": [
+    "@niracler"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/maginawin/ha-dali-center/blob/main/README.md",
+  "homekit": {},
+  "iot_class": "local_push",
+  "quality_scale": "bronze",
+  "requirements": [
+    "cryptography>=36.0.0",
+    "paho-mqtt>=1.6.0"
+  ],
+  "ssdp": [],
+  "version": "0.1.0",
+  "zeroconf": []
+}

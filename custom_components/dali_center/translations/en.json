@@ -1,0 +1,93 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured",
+            "no_devices_found": "No Dali Center devices found on the network",
+            "no_gateway_selected": "No gateway selected",
+            "no_entities_found": "No entities found on the gateway",
+            "cannot_connect": "Failed to connect to gateway"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect to gateway",
+            "device_not_found": "Selected device not found",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "title": "Set up Dali Center Gateway",
+                "data": {
+                    "selected_gateway": "Select Gateway"
+                }
+            },
+            "configure_entities": {
+                "title": "Select Entities",
+                "description": "Select devices, groups, and scenes to add to Home Assistant",
+                "data": {
+                    "devices": "Devices",
+                    "groups": "Groups",
+                    "scenes": "Scenes"
+                }
+            },
+            "search_devices": {
+                "title": "Select Devices",
+                "description": "Select devices to add to Home Assistant",
+                "data": {
+                    "devices": "Devices"
+                }
+            },
+            "search_groups": {
+                "title": "Select Groups",
+                "description": "Select groups to add to Home Assistant",
+                "data": {
+                    "groups": "Groups"
+                }
+            },
+            "search_scenes": {
+                "title": "Select Scenes",
+                "description": "Select scenes to add to Home Assistant",
+                "data": {
+                    "scenes": "Scenes"
+                }
+            }
+        }
+    },
+    "options": {
+        "abort": {
+            "gateway_not_found": "Gateway not found in Home Assistant"
+        },
+        "step": {
+            "init": {
+                "title": "Configuration Options",
+                "description": "Update Dali Center Configuration",
+                "data": {
+                    "refresh_devices": "Refresh Device List",
+                    "refresh_groups": "Refresh Group List",
+                    "refresh_scenes": "Refresh Scene List"
+                }
+            },
+            "select_entities": {
+                "title": "Review Changes",
+                "description": "{diff_summary}\n\nItems marked with [NEW] are newly discovered.\nItems marked with [REMOVED] are no longer available.\n\nSelect the entities you want to keep:",
+                "data": {
+                    "devices": "Devices",
+                    "groups": "Groups",
+                    "scenes": "Scenes"
+                }
+            },
+            "refresh": {
+                "title": "Refresh Configuration",
+                "data": {
+                    "refresh_result": "Refresh Result"
+                }
+            },
+            "refresh_result": {
+                "title": "Refresh Results",
+                "description": "{result_message}",
+                "data": {
+                    "refresh_result": "Refresh Result"
+                }
+            }
+        }
+    }
+}
