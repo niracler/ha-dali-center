@@ -1,6 +1,30 @@
-# ha-dali-center
+# DALI Center Integration
 
-Home Assistant Integration - Dali Center
+![GitHub Release][releases-shield]
+![GitHub Activity][commits-shield]
+![hacs][hacsbadge]
+
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
+[hacs]: https://github.com/hacs/integration
+[commits-shield]: https://img.shields.io/github/commit-activity/m/maginawin/ha-dali-center.svg?style=for-the-badge
+[releases-shield]: https://img.shields.io/github/release/maginawin/ha-dali-center.svg?style=for-the-badge
+
+
+The DALI Center integration brings comprehensive DALI lighting control to Home Assistant through DALI Center gateways. Control individual lights, groups, and scenes with real-time status updates and energy monitoring.
+
+<p align="center">
+  <img src="docs/img/logo.png" alt="DALI Center Logo" width="500">
+</p>
+
+## Features
+
+- **Automatic Gateway Discovery** - Automatically discovers DALI Center gateways on your network
+- **Comprehensive Device Control** - Control individual DALI devices, groups, and scenes
+- **Energy Monitoring** - Real-time energy consumption tracking for connected devices
+- **Scene Management** - One-click scene activation with dedicated button entities
+- **Real-time Updates** - Instant status updates via MQTT communication
+- **Easy Configuration** - Simple UI-based setup with device selection
+- **Multi-Platform Support** - Light, Sensor, and Button entities
 
 ## Installation Guide
 
@@ -55,6 +79,24 @@ To completely remove the integration files:
 ```bash
 rm -rf /config/custom_components/dali_center
 ```
+
+## Available Entities
+
+### Light Entities
+
+- `light.DEVICE_NAME` - Individual DALI lighting devices with brightness and on/off control
+- `light.GROUP_NAME` - DALI group entities for controlling multiple devices simultaneously
+
+### Sensor Entities
+
+- `sensor.DEVICE_NAME_current_hour_energy` - Energy consumption tracking for individual devices
+- `sensor.DEVICE_NAME_state` - Motion sensor state (motion/illuminance sensors)
+- `sensor.DEVICE_NAME_event` - Panel button press events
+
+### Button Entities
+
+- `button.SCENE_NAME` - Scene activation buttons for instant lighting presets
+- `button.DEVICE_NAME_button_N` - Individual panel button controls (for multi-key panels)
 
 ## Common Issues
 
