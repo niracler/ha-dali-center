@@ -3,21 +3,6 @@
 
 # Home Assistant core for development
 homeassistant>=2023.1.0
-
-# MQTT client library for gateway communication
-paho-mqtt>=1.6.0
-
-# Cryptography library for AES encryption/decryption in gateway discovery
-cryptography>=36.0.0
-
-# Schema validation library for configuration forms
-voluptuous
-
-# System and process utilities for network interface detection
-psutil
-
-# Timeout management for async operations
 async_timeout>=4.0.0
-
-# DALI Gateway library
+voluptuous
 PySrDaliGateway>=0.1.0
