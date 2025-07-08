@@ -14,7 +14,8 @@ from homeassistant.helpers import device_registry as dr
 
 from .helper import find_set_differences
 from .types import ConfigData
-from PySrDaliGateway import DaliGateway, DaliGatewayType, DaliGatewayDiscovery, DeviceType, GroupType, SceneType
+from PySrDaliGateway import DaliGateway, DaliGatewayType, DeviceType, GroupType, SceneType
+from PySrDaliGateway.discovery import DaliGatewayDiscovery
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
