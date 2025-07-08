@@ -20,10 +20,7 @@ from homeassistant.components.light import (
 )
 
 from .const import DOMAIN
-from .gateway import DaliGateway
-from .gateway.device import Device
-from .gateway.group import Group
-from .gateway.helper import is_light_device
+from PySrDaliGateway import DaliGateway, Device, Group, is_light_device
 
 _LOGGER = logging.getLogger(__name__)
 

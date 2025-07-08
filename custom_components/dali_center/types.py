@@ -3,10 +3,7 @@
 from typing import TypedDict
 from homeassistant.config_entries import ConfigEntry
 
-from .gateway.device import DeviceType
-from .gateway.scene import SceneType
-from .gateway.group import GroupType
-from .gateway import DaliGatewayType
+from PySrDaliGateway import DeviceType, SceneType, GroupType, DaliGatewayType
 
 
 class ConfigData(TypedDict, total=False):

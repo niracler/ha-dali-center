@@ -18,10 +18,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 
 from .const import DOMAIN
-from .gateway import DaliGateway
-from .gateway.device import Device
-from .gateway.helper import is_light_device, is_motion_sensor, is_illuminance_sensor, is_panel_device
-from .gateway.const import BUTTON_EVENTS
+from PySrDaliGateway import DaliGateway, Device, is_light_device, is_motion_sensor, is_illuminance_sensor, is_panel_device, BUTTON_EVENTS
 
 _LOGGER = logging.getLogger(__name__)
 

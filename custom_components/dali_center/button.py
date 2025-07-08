@@ -9,10 +9,7 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
-from .gateway import DaliGateway
-from .gateway.scene import Scene
-from .gateway.device import Device
-from .gateway.helper import is_panel_device
+from PySrDaliGateway import DaliGateway, Scene, Device, is_panel_device
 
 _LOGGER = logging.getLogger(__name__)
 

@@ -13,7 +13,8 @@
   "quality_scale": "bronze",
   "requirements": [
     "cryptography>=36.0.0",
-    "paho-mqtt>=1.6.0"
+    "paho-mqtt>=1.6.0",
+    "PySrDaliGateway>=0.1.0"
   ],
   "ssdp": [],
   "version": "0.1.0",
