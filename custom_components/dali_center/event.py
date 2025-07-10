@@ -131,33 +131,24 @@ class DaliCenterPanelEvent(EventEntity):
             value = prop.get("value")
 
             event_name = None
-            event_data = None
-            if dpid == 1:
-                event_name = f"button_{key_no}_single_click"
-            elif dpid == 3:
-                event_name = f"button_{key_no}_double_click"
-            elif dpid == 4:
-                event_name = f"button_{key_no}_rotate"
-                event_data = {"rotate_value": value}
-            else:
-                event_type = BUTTON_EVENTS.get(dpid, None)
-                if event_type:
-                    event_name = f"button_{key_no}_{event_type}"
+            event_type = BUTTON_EVENTS.get(dpid, None)
+            if event_type:
+                event_name = f"button_{key_no}_{event_type}"
 
-            if event_name and event_name in list(
-                self.entity_description.event_types
-            ):
-                _LOGGER.debug(
-                    "%s %s triggering event: %s (dpid: %s, value: %s)",
-                    self.name, self.unique_id,
-                    event_name, dpid, value
-                )
-                if event_data:
-                    self._trigger_event(event_name, event_data)
-                else:
-                    self._trigger_event(event_name)
-            else:
+            if event_name is None:
                 _LOGGER.warning(
                     "%s %s unknown event value: %s (dpid: %s)",
                     self.name, self.unique_id, event_name, dpid
                 )
+                continue
+
+            _LOGGER.debug(
+                "%s %s triggering event: %s (dpid: %s, value: %s)",
+                self.name, self.unique_id,
+                event_name, dpid, value
+            )
+
+            if dpid == 4:
+                self._trigger_event(event_name, {"rotate_value": value})
+            else:
+                self._trigger_event(event_name)
