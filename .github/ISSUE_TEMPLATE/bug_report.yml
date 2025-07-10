@@ -10,6 +10,26 @@ body:
       placeholder: ex. 0.1.0
     validations:
       required: true
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant Version
+      placeholder: ex. 2024.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: installation-type
+    attributes:
+      label: Home Assistant Installation Type
+      description: How is your Home Assistant installed?
+      options:
+        - Home Assistant Operating System (HAOS)
+        - Home Assistant Container
+        - Home Assistant Core
+        - Home Assistant Supervised
+        - Other
+    validations:
+      required: true
   - type: textarea
     id: what-happened
     attributes:
