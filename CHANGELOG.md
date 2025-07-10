@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-01-06
+
+### Added
+
+- HACS integration support for one-click installation
+- CodeQL code quality analysis workflow
+- Comprehensive entity handling improvements
+
+### Changed
+
+- **BREAKING**: Migrated panel sensors to event entities for improved handling
+- Updated to PySrDaliGateway library v0.1.3 (replacing internal DALI Gateway)
+- Refactored import structure for better maintainability
+- Updated installation guide with HACS one-click integration instructions
+- Improved DALI Center logo using Home Assistant brand assets
+
+### Fixed
+
+- Panel sensor handling now uses proper event entities
+- Default brightness and RGBW color values for light entities
+- Type checking issues (mypy/pylint) resolved
+- Hassfest validation issues fixed
+
+### Removed
+
+- Removed unused dependencies and cleaned up requirements structure
+- Replaced internal DALI Gateway implementation with external library
+
 ## [0.1.0] - 2025-07-07
 
 ### Added
@@ -45,5 +73,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DALI Control panels (2-Key, 4-Key, 6-Key, 8-Key)
 - DALI Groups and Scenes
 
-[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/maginawin/ha-dali-center/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/maginawin/ha-dali-center/releases/tag/v0.1.0
