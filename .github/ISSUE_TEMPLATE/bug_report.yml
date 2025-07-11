@@ -51,4 +51,14 @@ body:
     id: logs
     attributes:
       label: Logs
+      description: |
+        Please provide relevant log messages to help troubleshoot the issue.
+        
+        **How to get logs:**
+        1. Go to Settings → System → Logs
+        2. Copy relevant log entries
+        3. Paste them below or attach as a file
+        
+        **Tip:** For large logs, download `/config/home-assistant.log` via Samba/SSH
+      placeholder: Paste your log entries here...
       render: shell 
