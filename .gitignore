@@ -7,5 +7,4 @@ __pycache__
 venv/
 old/
 
-CLAUDE.md
-DEVELOPMENT_WORKFLOW.md 
+.DS_Store
