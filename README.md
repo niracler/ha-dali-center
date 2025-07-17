@@ -14,6 +14,14 @@ The DALI Center integration brings comprehensive DALI lighting control to Home A
   <img src="https://brands.home-assistant.io/dali_center/logo@2x.png" alt="DALI Center Logo" width="500">
 </p>
 
+## Hardware Requirements
+
+⚠️ **Important**: This integration requires a **Sunricher DALI Center Gateway** to function. It is NOT compatible with DALI gateways from different manufacturers.
+
+**Supported Hardware:**
+
+- [DIN Rail Ethernet (IP) DALI Gateway SR-GW-EDA](https://www.sunricher.com/din-rail-ethernet-dali-gateway-sr-gw-eda.html)
+
 ## Features
 
 - **Automatic Gateway Discovery** - Automatically discovers DALI Center gateways on your network
