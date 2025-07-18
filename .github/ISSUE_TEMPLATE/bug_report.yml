@@ -52,6 +52,20 @@ body:
       label: Logs
       placeholder: |
         Please provide relevant log messages here.
-        
-        You can find logs in Settings → System → Logs or check `/config/home-assistant.log`
-      render: shell 
+
+        To enable debug logging for DALI Center integration, add this to your configuration.yaml:
+
+        logger:
+          default: info
+          logs:
+            custom_components.dali_center: debug
+            pysrdaligateway: debug
+
+        Then restart Home Assistant and reproduce the issue.
+
+        You can find logs in:
+        - Settings → System → Logs (filter by "dali_center")
+        - Or check `/config/home-assistant.log`
+
+        Please include the full error traceback if available.
+      render: shell
