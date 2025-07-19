@@ -46,26 +46,33 @@ body:
         3. See error
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ### Enable Debug Logging
+
+        To enable debug logging for DALI Center integration, add this to your `configuration.yaml`:
+
+        ```yaml
+        logger:
+          default: info
+          logs:
+            custom_components.dali_center: debug
+            pysrdaligateway: debug
+        ```
+
+        Then restart Home Assistant and reproduce the issue.
+
+        ### Where to Find Logs
+        - Settings → System → Logs (filter by "dali_center")
+        - Or check `/config/home-assistant.log`
+
   - type: textarea
     id: logs
     attributes:
       label: Logs
       placeholder: |
         Please provide relevant log messages here.
-
-        To enable debug logging for DALI Center integration, add this to your configuration.yaml:
-
-        logger:
-          default: info
-          logs:
-            custom_components.dali_center: debug
-            pysrdaligateway: debug
-
-        Then restart Home Assistant and reproduce the issue.
-
-        You can find logs in:
-        - Settings → System → Logs (filter by "dali_center")
-        - Or check `/config/home-assistant.log`
 
         Please include the full error traceback if available.
       render: shell
