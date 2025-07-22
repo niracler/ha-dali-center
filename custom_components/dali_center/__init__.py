@@ -13,7 +13,7 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 
-from .const import DOMAIN
+from .const import DOMAIN, MANUFACTURER
 from PySrDaliGateway import DaliGateway
 from .types import DaliCenterConfigEntry
 
@@ -39,6 +39,7 @@ async def async_setup_entry(
     """Set up dali_center from a config entry using paho-mqtt."""
     gateway: DaliGateway = DaliGateway(entry.data["gateway"])
     gw_sn = gateway.gw_sn
+    is_tls = entry.data["gateway"].get("is_tls", False)
 
     try:
         async with async_timeout.timeout(30):
@@ -72,13 +73,21 @@ async def async_setup_entry(
     gateway.on_device_status = on_device_status
     gateway.on_energy_report = on_energy_report
 
+    version = await gateway.get_version()
+    if version is None:
+        raise ConfigEntryNotReady(
+            f"Failed to get gateway {gw_sn} version")
+
     dev_reg = dr.async_get(hass)
     dev_reg.async_get_or_create(
         config_entry_id=entry.entry_id,
         identifiers={(DOMAIN, gw_sn)},
-        manufacturer="Dali Center",
-        name=f"Dali Gateway {gw_sn}",
-        model="Dali Gateway"
+        manufacturer=MANUFACTURER,
+        name=f"{gateway.name} (Secure)" if is_tls else gateway.name,
+        model="SR-GW-EDA",
+        sw_version=version["software"],
+        hw_version=version["firmware"],
+        serial_number=gw_sn,
     )
 
     # Store gateway instance
