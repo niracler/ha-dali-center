@@ -109,3 +109,10 @@ rm -rf /config/custom_components/dali_center
 
 - `button.SCENE_NAME` - Scene activation buttons for instant lighting presets
 - `button.DEVICE_NAME_button_N` - Individual panel button controls (for multi-key panels)
+
+## Support and Bug Reporting
+
+If you encounter issues with this integration, please:
+
+1. **Check existing issues** in the [GitHub Issues](https://github.com/maginawin/ha-dali-center/issues) section
+2. **Create a new bug report** using our [bug report template](https://github.com/maginawin/ha-dali-center/issues/new?assignees=&labels=bug&template=bug_report.yml&title=%5BBug%5D%3A+) if your issue isn't already reported

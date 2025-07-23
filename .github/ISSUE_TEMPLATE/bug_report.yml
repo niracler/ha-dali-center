@@ -24,8 +24,6 @@ body:
       options:
         - Home Assistant Operating System (HAOS)
         - Home Assistant Container
-        - Home Assistant Core
-        - Home Assistant Supervised
         - Other
     validations:
       required: true
@@ -49,24 +47,29 @@ body:
   - type: markdown
     attributes:
       value: |
-        ### Enable Debug Logging
+        ### Providing Logs
 
-        To enable debug logging for DALI Center integration, add this to your `configuration.yaml`:
+        **For most bugs, standard logs are sufficient.** Only enable debug logging if the issue is complex or we specifically request it.
+
+        #### How to Export Logs:
+        1. **Via Home Assistant UI**: 
+            - Go to Settings → System → Logs
+            - Click "Load Full Home Assistant Log"
+            - Use the download button to export logs
+        2. **Via File System**: Access `/config/home-assistant.log` directly
+
+        #### Enable Debug Logging (Only if needed):
+        If debug logging is required, add this to your `configuration.yaml`:
 
         ```yaml
         logger:
           default: warning
           logs:
             custom_components.dali_center: debug
-            PySrDaliGateway: debug
             paho: debug
         ```
 
         Then restart Home Assistant and reproduce the issue.
-
-        ### Where to Find Logs
-        - Settings → System → Logs (filter by "dali_center")
-        - Or check `/config/home-assistant.log`
 
   - type: textarea
     id: logs
