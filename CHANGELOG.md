@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-07-23
+
+### Added
+
+- Switch platform for Illuminance sensor device enable/disable control (#11)
+- MQTTS (MQTT over TLS) connection support, whether it is enabled depends on the gateway’s configuration. (#9)
+- Enhanced gateway information display (#10)
+
+### Fixed
+
+- Improved error handling and logging throughout the integration (#12, #13)
+- Enhanced error notification system (#12)
+
+### Technical
+
+- Updated PySrDaliGateway dependency to v0.3.0 for improved functionality (54a9e24)
+- Enhanced bug report template with detailed log instructions (a81c45c)
+
 ## [0.1.2] - 2025-07-15
 
 ### Added
@@ -95,6 +113,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DALI Control panels (2-Key, 4-Key, 6-Key, 8-Key)
 - DALI Groups and Scenes
 
-[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/maginawin/ha-dali-center/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/maginawin/ha-dali-center/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/maginawin/ha-dali-center/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/maginawin/ha-dali-center/releases/tag/v0.1.0
