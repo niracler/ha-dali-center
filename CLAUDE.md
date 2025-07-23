@@ -185,6 +185,7 @@ Detailed explanation of changes (if necessary)
 - `feat(gateway): add support for DALI device groups`
 - `fix(sensor): correct energy sensor precision`
 - `docs(readme): update installation instructions`
+- `chore(release): bump version to 0.2.0`
 
 ### Pull Request Process
 
@@ -201,9 +202,11 @@ Detailed explanation of changes (if necessary)
    - Include issue references (#123) for user-facing changes
    - Include commit hashes (abc1234) for technical changes without issues
    - Follow [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format
-3. **Commit changes** to main branch
+   - Update version links at bottom of changelog
+3. **Commit changes** to main branch using format: `chore(release): bump version to x.y.z`
 4. **Create and push tag** to upstream: `git tag v{version} && git push upstream v{version}`
-5. **Create GitHub release** using `gh release create`
+5. **Create GitHub release** using `gh release create v{version} --title "v{version}" --notes "..."`
+   - Copy release notes from CHANGELOG.md with same structure (Added, Fixed, Technical sections)
 6. **Follow semantic versioning**: MAJOR.MINOR.PATCH
 
 #### Changelog Structure Template
