@@ -8,3 +8,9 @@ venv/
 old/
 
 .DS_Store
+
+# Coverage reports
+coverage.xml
+htmlcov/
+.coverage
+.coverage.*

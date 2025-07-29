@@ -3,6 +3,7 @@
 ![GitHub Release][releases-shield]
 ![GitHub Activity][commits-shield]
 ![hacs][hacsbadge]
+[![codecov](https://codecov.io/gh/maginawin/ha-dali-center/branch/main/graph/badge.svg)](https://codecov.io/gh/maginawin/ha-dali-center)
 
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [commits-shield]: https://img.shields.io/github/commit-activity/m/maginawin/ha-dali-center.svg?style=for-the-badge
