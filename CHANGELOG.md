@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-01-03
+
+### Added
+
+- Support for multiple motion sensor types (1 to 20) with updated detection logic (#15)
+- Pairing guide in configuration flow for better user experience (#14)
+
+### Technical
+
+- Updated PySrDaliGateway dependency to v0.4.0 for improved functionality (ee45e56)
+- Established comprehensive test framework with pytest and coverage reporting (#17, #16)
+- Enhanced CI/CD pipeline with Codecov integration for code coverage tracking (b123c9c)
+- Updated release workflow documentation in development guide (a43ee90)
+
 ## [0.2.0] - 2025-07-23
 
 ### Added
@@ -113,7 +127,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DALI Control panels (2-Key, 4-Key, 6-Key, 8-Key)
 - DALI Groups and Scenes
 
-[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/maginawin/ha-dali-center/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/maginawin/ha-dali-center/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/maginawin/ha-dali-center/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/maginawin/ha-dali-center/compare/v0.1.0...v0.1.1
