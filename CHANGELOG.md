@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-08-06
+
+### Added
+
+- Gateway IP refresh option in configuration flow to handle DHCP IP changes (#20)
+
+### Technical  
+
+- Modularized configuration flow with helper classes for better code organization (#19)
+- Updated test cases for button event sensor switch platform (#18)
+
 ## [0.3.0] - 2025-07-30
 
 ### Added
@@ -127,7 +138,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DALI Control panels (2-Key, 4-Key, 6-Key, 8-Key)
 - DALI Groups and Scenes
 
-[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/maginawin/ha-dali-center/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/maginawin/ha-dali-center/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/maginawin/ha-dali-center/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/maginawin/ha-dali-center/compare/v0.1.1...v0.1.2
