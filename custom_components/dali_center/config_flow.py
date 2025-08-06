@@ -25,7 +25,8 @@ OPTIONS_SCHEMA = vol.Schema(
     {
         vol.Optional("refresh_devices", default=False): bool,
         vol.Optional("refresh_groups", default=False): bool,
-        vol.Optional("refresh_scenes", default=False): bool
+        vol.Optional("refresh_scenes", default=False): bool,
+        vol.Optional("refresh_gateway_ip", default=False): bool
     }
 )
 
@@ -39,8 +40,51 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         self._refresh_devices = False
         self._refresh_groups = False
         self._refresh_scenes = False
+        self._refresh_gateway_ip = False
         self._refresh_results: dict[str, Any] = {}
         self._discovered_entities: dict[str, list] = {}
+
+    async def _reload_with_delay(self) -> bool:
+        """Reload config entry with a delay to ensure clean state.
+
+        Returns:
+            bool: True if reload was successful, False otherwise
+        """
+        try:
+            _LOGGER.debug(
+                "Unloading config entry %s",
+                self._config_entry.entry_id
+            )
+            await self.hass.config_entries.async_unload(
+                self._config_entry.entry_id
+            )
+
+            # Wait a moment to ensure everything is cleaned up
+            await asyncio.sleep(0.5)
+
+            # Then reload the entry
+            _LOGGER.debug(
+                "Setting up config entry %s with new configuration",
+                self._config_entry.entry_id
+            )
+            result = await self.hass.config_entries.async_setup(
+                self._config_entry.entry_id
+            )
+
+            if result:
+                _LOGGER.debug("Config entry reload completed successfully")
+                # Wait a bit more for runtime_data to be fully initialized
+                await asyncio.sleep(1.0)
+                return True
+            else:
+                _LOGGER.error("Config entry setup failed")
+                return False
+
+        except Exception as e:  # pylint: disable=broad-exception-caught
+            _LOGGER.error(
+                "Error during config entry reload: %s", e
+            )
+            return False
 
     async def async_step_init(
         self, user_input: dict[str, bool] | None = None
@@ -63,6 +107,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             "refresh_groups", self._refresh_groups)
         self._refresh_scenes = user_input.get(
             "refresh_scenes", self._refresh_scenes)
+        self._refresh_gateway_ip = user_input.get(
+            "refresh_gateway_ip", self._refresh_gateway_ip)
+
+        # If IP refresh is requested, do it first
+        if self._refresh_gateway_ip:
+            return await self.async_step_refresh_gateway_ip()
 
         return await self.async_step_refresh()
 
@@ -119,12 +169,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             # Calculate differences between current config and user selection
             self._refresh_results = UIFormattingHelper.\
                 calculate_entity_differences(
-                dict(selected),
-                current_data,
-                self._refresh_devices,
-                self._refresh_groups,
-                self._refresh_scenes
-            )
+                    dict(selected),
+                    current_data,
+                    self._refresh_devices,
+                    self._refresh_groups,
+                    self._refresh_scenes
+                )
 
             # Update config data with selected entities
             updated_data = {**current_data, **selected}
@@ -163,35 +213,8 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 )
                 entity_reg.async_remove(entity.entity_id)
 
-            async def _reload_with_delay() -> None:
-                """Reload config entry with a delay to ensure clean state."""
-                try:
-                    _LOGGER.debug(
-                        "Unloading config entry %s",
-                        self._config_entry.entry_id
-                    )
-                    await self.hass.config_entries.async_unload(
-                        self._config_entry.entry_id
-                    )
-
-                    # Wait a moment to ensure everything is cleaned up
-                    await asyncio.sleep(0.5)
-
-                    # Then reload the entry
-                    _LOGGER.debug(
-                        "Setting up config entry %s with new configuration",
-                        self._config_entry.entry_id
-                    )
-                    await self.hass.config_entries.async_setup(
-                        self._config_entry.entry_id
-                    )
-                except Exception as e:  # pylint: disable=broad-exception-caught
-                    _LOGGER.error(
-                        "Error during config entry reload: %s", e
-                    )
-
-            # Schedule the reload
-            self.hass.async_create_task(_reload_with_delay())
+            # Wait for reload to complete
+            await self._reload_with_delay()
 
             return await self.async_step_refresh_result()
 
@@ -234,8 +257,100 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
         return self.async_create_entry(data={})
 
+    async def async_step_refresh_gateway_ip(self) -> ConfigFlowResult:
+        """Refresh gateway IP address by serial number discovery."""
+        errors = {}
+
+        try:
+            _LOGGER.debug(
+                "Refreshing IP for gateway %s",
+                self._config_entry.data["sn"]
+            )
+
+            current_sn = self._config_entry.data["sn"]
+
+            if hasattr(self._config_entry, "runtime_data"):
+                gateway: DaliGateway = self._config_entry.runtime_data.gateway
+                await gateway.disconnect()
+                _LOGGER.debug("Disconnected existing gateway connection")
+
+            # Perform discovery with serial number to get updated IP
+            discovery = DaliGatewayDiscovery()
+            discovered_gateways = await discovery.discover_gateways(current_sn)
+
+            if not discovered_gateways:
+                _LOGGER.warning(
+                    "Gateway %s not found during IP refresh", current_sn)
+                errors["base"] = "gateway_not_found"
+                return self.async_show_form(
+                    step_id="refresh_gateway_ip",
+                    errors=errors,
+                    data_schema=vol.Schema({}),
+                )
+
+            # Get the first (and should be only) gateway found
+            updated_gateway = discovered_gateways[0]
+
+            # Update config entry with new IP
+            current_data = dict(self._config_entry.data)
+            current_data["gateway"]["gw_ip"] = updated_gateway["gw_ip"]
+
+            self.hass.config_entries.async_update_entry(
+                self._config_entry, data=current_data
+            )
+
+            _LOGGER.info(
+                "Gateway %s IP updated to %s",
+                current_sn, updated_gateway["gw_ip"]
+            )
+
+            reload_success = await self._reload_with_delay()
+
+            if not reload_success:
+                _LOGGER.error("Failed to reload integration after IP update")
+                errors["base"] = "cannot_connect"
+                return self.async_show_form(
+                    step_id="refresh_gateway_ip",
+                    errors=errors,
+                    data_schema=vol.Schema({}),
+                )
+
+            if (self._refresh_devices or self._refresh_groups or
+                    self._refresh_scenes):
+                return await self.async_step_refresh()
+
+            return self.async_show_form(
+                step_id="refresh_gateway_ip_result",
+                data_schema=vol.Schema({}),
+                description_placeholders={
+                    "gateway_sn": current_sn,
+                    "new_ip": updated_gateway["gw_ip"]
+                }
+            )
+
+        except Exception as e:  # pylint: disable=broad-exception-caught
+            _LOGGER.error("Error refreshing gateway IP: %s", e)
+            errors["base"] = "cannot_connect"
+            return self.async_show_form(
+                step_id="refresh_gateway_ip",
+                errors=errors,
+                data_schema=vol.Schema({}),
+            )
+
+    async def async_step_refresh_gateway_ip_result(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        if user_input is None:
+            return self.async_show_form(
+                step_id="refresh_gateway_ip_result",
+                data_schema=vol.Schema({}),
+            )
+
+        return self.async_create_entry(data={})
+
 
 class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
+    # type: ignore[call-arg]
     """Handle a config flow for Dali Center."""
 
     VERSION = 1
@@ -250,12 +365,10 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Handle the initial step - show gateway discovery instructions."""
         if user_input is not None:
             # User confirmed, proceed to discovery
             return await self.async_step_discovery()
 
-        # Show instructions to user before starting discovery
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema({}),
@@ -267,7 +380,6 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_discovery(
         self, discovery_info: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Handle gateway discovery and selection step."""
         errors = {}
 
         if discovery_info is not None:
@@ -318,7 +430,7 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
                     step_id="discovery",
                     errors=errors,
                     description_placeholders={
-                        "message": UIFormattingHelper.\
+                        "message": UIFormattingHelper.
                             get_discovery_failed_message()
                     },
                     data_schema=vol.Schema({}),
@@ -407,11 +519,11 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
             # Discover all entities using helper
             self._discovered_entities = await EntityDiscoveryHelper.\
                 discover_entities(
-                self._selected_gateway,
-                discover_devices=True,
-                discover_groups=True,
-                discover_scenes=True
-            )
+                    self._selected_gateway,
+                    discover_devices=True,
+                    discover_groups=True,
+                    discover_scenes=True
+                )
 
             # Disconnect from the gateway
             try:
