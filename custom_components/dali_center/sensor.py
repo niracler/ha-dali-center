@@ -69,6 +69,7 @@ class DaliCenterEnergySensor(SensorEntity):
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_native_unit_of_measurement = UnitOfEnergy.WATT_HOUR
     _attr_entity_category = EntityCategory.DIAGNOSTIC
+    _attr_suggested_display_precision = 2
     _attr_has_entity_name = True
 
     def __init__(self, device: Device) -> None:
