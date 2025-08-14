@@ -263,7 +263,7 @@ class TestDaliCenterEnergySensor:
 
     def test_energy_sensor_name(self, energy_sensor):
         """Test energy sensor name property."""
-        assert energy_sensor.name == "Current Hour Energy"
+        assert energy_sensor.name == "Energy"
 
     def test_energy_sensor_unique_id(self, energy_sensor, mock_device):
         """Test energy sensor unique_id property."""

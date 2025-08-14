@@ -75,7 +75,7 @@ class DaliCenterEnergySensor(SensorEntity):
     def __init__(self, device: Device) -> None:
         self._device = device
 
-        self._name = "Current Hour Energy"
+        self._name = "Energy"
         self._unique_id = f"{device.unique_id}_energy"
         self._device_id = device.unique_id
 
