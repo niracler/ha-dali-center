@@ -17,10 +17,11 @@ from .const import DOMAIN, MANUFACTURER
 from PySrDaliGateway import DaliGateway
 from PySrDaliGateway.exceptions import DaliGatewayError
 from .types import DaliCenterConfigEntry, DaliCenterData
+from . import device_trigger
 
 _PLATFORMS: list[Platform] = [
-    Platform.LIGHT, Platform.SENSOR, Platform.BUTTON,
-    Platform.EVENT, Platform.SWITCH
+    Platform.LIGHT, Platform.SENSOR,
+    Platform.BUTTON, Platform.SWITCH
 ]
 _LOGGER = logging.getLogger(__name__)
 
@@ -85,16 +86,21 @@ async def async_setup_entry(
             gw_sn
         )
 
-    def on_online_status(unique_id: str, available: bool) -> None:
-        signal = f"dali_center_update_available_{unique_id}"
+    def on_online_status(dev_id: str, available: bool) -> None:
+        signal = f"dali_center_update_available_{dev_id}"
         hass.add_job(
             async_dispatcher_send, hass, signal, available
         )
 
-    def on_device_status(unique_id: str, property_list: list) -> None:
-        signal = f"dali_center_update_{unique_id}"
+    def on_device_status(dev_id: str, property_list: list) -> None:
+        signal = f"dali_center_update_{dev_id}"
         hass.add_job(
             async_dispatcher_send, hass, signal, property_list
+        )
+
+        hass.add_job(
+            device_trigger.fire_device_triggers,
+            hass, dev_id, property_list
         )
 
     def on_energy_report(unique_id: str, energy: float) -> None:
