@@ -2,6 +2,11 @@
 from __future__ import annotations
 
 import logging
+
+from PySrDaliGateway import DaliGateway, Device
+from PySrDaliGateway.const import BUTTON_EVENTS
+from PySrDaliGateway.helper import is_panel_device
+
 from homeassistant.components.event import (
     EventDeviceClass,
     EventEntity,
@@ -9,13 +14,10 @@ from homeassistant.components.event import (
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN, MANUFACTURER
-from PySrDaliGateway import DaliGateway, Device
-from PySrDaliGateway.helper import is_panel_device
-from PySrDaliGateway.const import BUTTON_EVENTS
 from .types import DaliCenterConfigEntry
 
 _LOGGER = logging.getLogger(__name__)

@@ -2,22 +2,26 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional
+
+from PySrDaliGateway import DaliGateway, Device
+from PySrDaliGateway.helper import (
+    is_illuminance_sensor,
+    is_light_device,
+    is_motion_sensor,
+)
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import EntityCategory, UnitOfEnergy, LIGHT_LUX
+from homeassistant.const import LIGHT_LUX, EntityCategory, UnitOfEnergy
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN, MANUFACTURER
-from PySrDaliGateway import DaliGateway, Device
-from PySrDaliGateway.helper import is_light_device, is_motion_sensor, is_illuminance_sensor
 from .types import DaliCenterConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
@@ -250,7 +254,7 @@ class DaliCenterIlluminanceSensor(SensorEntity):
         self._unique_id = f"{device.unique_id}"
         self._device_id = device.unique_id
         self._available = device.status == "online"
-        self._state: Optional[float] = None
+        self._state: float | None = None
         self._sensor_enabled: bool = True  # Track sensor enable state
 
     @property

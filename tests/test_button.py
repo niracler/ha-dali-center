@@ -1,27 +1,22 @@
 """Test button platform for Dali Center integration."""
 # pylint: disable=protected-access
 
-import pytest
 from unittest.mock import Mock, patch
 
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.config_entries import ConfigEntry
+import pytest
 
 from custom_components.dali_center.button import (
+    DaliCenterPanelButton,
+    DaliCenterSceneButton,
     async_setup_entry,
     get_panel_button_count,
-    DaliCenterSceneButton,
-    DaliCenterPanelButton
 )
 from custom_components.dali_center.const import DOMAIN
 from custom_components.dali_center.types import DaliCenterData
-from tests.conftest import (
-    MockDaliGateway,
-    MockDevice,
-    MockScene,
-    MOCK_GATEWAY_SN
-)
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from tests.conftest import MOCK_GATEWAY_SN, MockDaliGateway, MockDevice, MockScene
 
 
 class TestGetPanelButtonCount:
@@ -219,7 +214,7 @@ class TestButtonPlatformSetup:
         })
 
         with patch(
-            "custom_components.dali_center.button.is_panel_device", 
+            "custom_components.dali_center.button.is_panel_device",
             return_value=False
         ):
             await async_setup_entry(mock_hass, config_entry, mock_add_entities)

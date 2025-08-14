@@ -1,22 +1,21 @@
 """Test the __init__.py module for Dali Center integration."""
 # pylint: disable=protected-access
 
-import asyncio
 import logging
-from unittest.mock import Mock, patch, AsyncMock
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-from homeassistant.core import HomeAssistant
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.exceptions import ConfigEntryNotReady
 
 from custom_components.dali_center import (
-    _setup_dependency_logging,
     _notify_user_error,
+    _setup_dependency_logging,
+    async_setup_entry,
     async_unload_entry,
-    async_setup_entry
 )
 from custom_components.dali_center.const import DOMAIN
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryNotReady
 from tests.conftest import MOCK_GATEWAY_SN
 
 
@@ -37,7 +36,7 @@ class TestSetupDependencyLogging:
             def get_logger_side_effect(name):
                 if name == "custom_components.dali_center":
                     return mock_current_logger
-                elif name == "PySrDaliGateway":
+                if name == "PySrDaliGateway":
                     return mock_gateway_logger
                 return Mock()
 
@@ -63,7 +62,7 @@ class TestSetupDependencyLogging:
             def get_logger_side_effect(name):
                 if name == "custom_components.dali_center":
                     return mock_current_logger
-                elif name == "PySrDaliGateway":
+                if name == "PySrDaliGateway":
                     return mock_gateway_logger
                 return Mock()
 
@@ -327,7 +326,7 @@ class TestAsyncSetupEntry:
 
         # Mock timeout context manager to raise TimeoutError
         mock_timeout.return_value.__aenter__ = AsyncMock(
-            side_effect=asyncio.TimeoutError("Timeout"))
+            side_effect=TimeoutError("Timeout"))
         mock_timeout.return_value.__aexit__ = AsyncMock(return_value=None)
 
         # Mock gateway

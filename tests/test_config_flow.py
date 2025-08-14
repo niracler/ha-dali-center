@@ -1,28 +1,27 @@
 """Test config flow for Dali Center integration."""
 # pylint: disable=protected-access
 
-import pytest
 from unittest.mock import AsyncMock, Mock, patch
 
+from PySrDaliGateway.exceptions import DaliGatewayError
+import pytest
+
+from custom_components.dali_center.config_flow import (
+    OPTIONS_SCHEMA,
+    DaliCenterConfigFlow,
+    OptionsFlowHandler,
+)
+from custom_components.dali_center.const import DOMAIN
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers.device_registry import DeviceEntry
 from homeassistant.helpers.entity_registry import RegistryEntry
-
-from PySrDaliGateway.exceptions import DaliGatewayError
-
-from custom_components.dali_center.config_flow import (
-    OptionsFlowHandler,
-    DaliCenterConfigFlow,
-    OPTIONS_SCHEMA
-)
-from custom_components.dali_center.const import DOMAIN
 from tests.conftest import (
+    MOCK_GATEWAY_IP,
+    MOCK_GATEWAY_SN,
     MockDaliGateway,
     MockDaliGatewayDiscovery,
-    MOCK_GATEWAY_SN,
-    MOCK_GATEWAY_IP
 )
 
 # Module path constants to avoid repetition

@@ -1,12 +1,14 @@
 """Test UI formatting and display helpers for config flow."""
 # pylint: disable=protected-access
 
-import pytest
 from unittest.mock import patch
 
+import pytest
+
 from custom_components.dali_center.config_flow_helpers.ui_helpers import (
-    UIFormattingHelper
+    UIFormattingHelper,
 )
+
 
 class TestUIFormattingHelper:
     """Test UIFormattingHelper class."""

@@ -4,17 +4,21 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from PySrDaliGateway import DaliGateway, Device
+from PySrDaliGateway.helper import is_illuminance_sensor
+
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.dispatcher import (
+    async_dispatcher_connect,
+    async_dispatcher_send,
+)
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.dispatcher import async_dispatcher_connect, async_dispatcher_send
 
 from .const import DOMAIN, MANUFACTURER
 from .types import DaliCenterConfigEntry
-from PySrDaliGateway import DaliGateway, Device
-from PySrDaliGateway.helper import is_illuminance_sensor
 
 _LOGGER = logging.getLogger(__name__)
 

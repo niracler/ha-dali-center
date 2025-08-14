@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
+from unittest.mock import Mock, patch
+
 import pytest
-from unittest.mock import patch, Mock
-from homeassistant.config_entries import ConfigEntry
 
 from custom_components.dali_center.const import DOMAIN
-
+from homeassistant.config_entries import ConfigEntry
 
 # Mock data for testing
 MOCK_GATEWAY_SN = "DALI123456"

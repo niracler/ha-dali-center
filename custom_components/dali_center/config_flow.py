@@ -1,23 +1,23 @@
 """Config flow for the Dali Center integration."""
 
-import logging
-from typing import Any, Optional
-import voluptuous as vol
 import asyncio
+import logging
+from typing import Any
+
+from PySrDaliGateway import DaliGateway, DaliGatewayType
+from PySrDaliGateway.discovery import DaliGatewayDiscovery
+from PySrDaliGateway.exceptions import DaliGatewayError
+import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult
 from homeassistant.core import callback
-from homeassistant.helpers import entity_registry as er
-from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 
-from .types import ConfigData
-from PySrDaliGateway import DaliGateway, DaliGatewayType
-from PySrDaliGateway.discovery import DaliGatewayDiscovery
-from PySrDaliGateway.exceptions import DaliGatewayError
-from .const import DOMAIN
 from .config_flow_helpers.entity_helpers import EntityDiscoveryHelper
 from .config_flow_helpers.ui_helpers import UIFormattingHelper
+from .const import DOMAIN
+from .types import ConfigData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -76,9 +76,8 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 # Wait a bit more for runtime_data to be fully initialized
                 await asyncio.sleep(1.0)
                 return True
-            else:
-                _LOGGER.error("Config entry setup failed")
-                return False
+            _LOGGER.error("Config entry setup failed")
+            return False
 
         except Exception as e:  # pylint: disable=broad-exception-caught
             _LOGGER.error(
@@ -359,7 +358,7 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
         super().__init__()
         self._gateways: list[DaliGatewayType] = []
         self._discovered_entities: dict[str, list] = {}
-        self._selected_gateway: Optional[DaliGateway] = None
+        self._selected_gateway: DaliGateway | None = None
         self._config_data: ConfigData = {}
 
     async def async_step_user(
@@ -389,7 +388,7 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
                 return await self.async_step_discovery()
 
             # User selected a gateway, proceed to connection
-            selected_gateway: Optional[DaliGatewayType] = next((
+            selected_gateway: DaliGatewayType | None = next((
                 gateway for gateway in self._gateways
                 if gateway["gw_sn"] == discovery_info["selected_gateway"]
             ), None)
@@ -486,7 +485,7 @@ class DaliCenterConfigFlow(ConfigFlow, domain=DOMAIN):
         )
 
     async def async_step_configure_entities(
-        self, user_input: Optional[dict[str, Any]] = None
+        self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Search for devices, groups, and scenes"""
         errors = {}

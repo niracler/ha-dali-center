@@ -1,24 +1,20 @@
 """Test switch platform for Dali Center integration."""
 # pylint: disable=protected-access
 
-import pytest
 from unittest.mock import Mock, patch
 
+import pytest
+
+from custom_components.dali_center.const import DOMAIN
+from custom_components.dali_center.switch import (
+    DaliCenterIlluminanceSensorEnableSwitch,
+    async_setup_entry,
+)
+from custom_components.dali_center.types import DaliCenterData
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.config_entries import ConfigEntry
-
-from custom_components.dali_center.switch import (
-    async_setup_entry,
-    DaliCenterIlluminanceSensorEnableSwitch
-)
-from custom_components.dali_center.const import DOMAIN
-from custom_components.dali_center.types import DaliCenterData
-from tests.conftest import (
-    MockDaliGateway,
-    MockDevice,
-    MOCK_GATEWAY_SN
-)
+from tests.conftest import MOCK_GATEWAY_SN, MockDaliGateway, MockDevice
 
 
 class TestSwitchPlatformSetup:

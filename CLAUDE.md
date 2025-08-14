@@ -134,11 +134,8 @@ python3 -m venv venv
 # Activate virtual environment
 source venv/bin/activate
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Install development dependencies
-pip install -r requirements-dev.txt
+# Install development dependencies (includes runtime deps)
+pip install -e ".[dev]"
 
 # Deactivate when done
 deactivate
@@ -157,7 +154,7 @@ mypy --show-error-codes --pretty custom_components/dali_center
 #### Code Linting
 
 ```bash
-pylint $(fd .py "custom_components/" "tests")
+ruff check custom_components/ tests/
 ```
 
 #### Running Tests

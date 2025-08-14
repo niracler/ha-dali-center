@@ -1,17 +1,15 @@
 """Test entity discovery and selection helpers for config flow."""
 
-import pytest
 from unittest.mock import AsyncMock
+
+from PySrDaliGateway.exceptions import DaliGatewayError
+import pytest
 import voluptuous as vol
 
 from custom_components.dali_center.config_flow_helpers.entity_helpers import (
-    EntityDiscoveryHelper
+    EntityDiscoveryHelper,
 )
-from PySrDaliGateway.exceptions import DaliGatewayError
-from tests.conftest import (
-    MockDaliGateway,
-    MOCK_GATEWAY_SN
-)
+from tests.conftest import MOCK_GATEWAY_SN, MockDaliGateway
 
 
 class TestEntityDiscoveryHelper:

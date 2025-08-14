@@ -1,28 +1,24 @@
 """Test sensor platform for Dali Center integration."""
 # pylint: disable=protected-access
 
-import pytest
-from unittest.mock import Mock, patch
 from contextlib import ExitStack
+from unittest.mock import Mock, patch
 
+import pytest
+
+from custom_components.dali_center.const import DOMAIN
+from custom_components.dali_center.sensor import (
+    DaliCenterEnergySensor,
+    DaliCenterIlluminanceSensor,
+    DaliCenterMotionSensor,
+    async_setup_entry,
+)
+from custom_components.dali_center.types import DaliCenterData
+from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
-
-from custom_components.dali_center.sensor import (
-    async_setup_entry,
-    DaliCenterEnergySensor,
-    DaliCenterMotionSensor,
-    DaliCenterIlluminanceSensor
-)
-from custom_components.dali_center.const import DOMAIN
-from custom_components.dali_center.types import DaliCenterData
-from tests.conftest import (
-    MockDaliGateway,
-    MockDevice,
-    MOCK_GATEWAY_SN
-)
+from tests.conftest import MOCK_GATEWAY_SN, MockDaliGateway, MockDevice
 
 # Module path constant to avoid repetition
 SM = "custom_components.dali_center.sensor"

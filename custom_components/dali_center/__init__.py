@@ -6,6 +6,9 @@ import asyncio
 import logging
 
 import async_timeout
+from PySrDaliGateway import DaliGateway
+from PySrDaliGateway.exceptions import DaliGatewayError
+
 from homeassistant.components.persistent_notification import async_create
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
@@ -14,8 +17,6 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import DOMAIN, MANUFACTURER
-from PySrDaliGateway import DaliGateway
-from PySrDaliGateway.exceptions import DaliGatewayError
 from .types import DaliCenterConfigEntry, DaliCenterData
 
 _PLATFORMS: list[Platform] = [
@@ -77,7 +78,7 @@ async def async_setup_entry(
         raise ConfigEntryNotReady(
             "You can try to delete the gateway and add it again"
         ) from exc
-    except asyncio.TimeoutError as exc:
+    except TimeoutError as exc:
         _LOGGER.warning("Overall timeout connecting to gateway %s", gw_sn)
         await _notify_user_error(
             hass, "Connection Timeout",

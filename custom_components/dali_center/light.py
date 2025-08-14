@@ -1,26 +1,27 @@
 """Platform for light integration."""
 from __future__ import annotations
 
-import logging
-from typing import Any, Optional
 import colorsys
+import logging
+from typing import Any
 
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from PySrDaliGateway import DaliGateway, Device, Group
+from PySrDaliGateway.helper import is_light_device
+
 from homeassistant.components.light import (
-    ATTR_RGBW_COLOR,
-    LightEntity,
-    ColorMode,
     ATTR_BRIGHTNESS,
     ATTR_COLOR_TEMP_KELVIN,
     ATTR_HS_COLOR,
+    ATTR_RGBW_COLOR,
+    ColorMode,
+    LightEntity,
 )
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN, MANUFACTURER
-from PySrDaliGateway import DaliGateway, Device, Group
-from PySrDaliGateway.helper import is_light_device
 from .types import DaliCenterConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
@@ -82,13 +83,13 @@ class DaliCenterLight(LightEntity):
         self._name = "Light"
         self._unique_id = light.unique_id
         self._available = light.status == "online"
-        self._state: Optional[bool] = None
-        self._brightness: Optional[int] = None
-        self._white_level: Optional[int] = None
-        self._color_mode: Optional[ColorMode] = None
-        self._color_temp_kelvin: Optional[int] = None
-        self._hs_color: Optional[tuple[float, float]] = None
-        self._rgbw_color: Optional[tuple[int, int, int, int]] = None
+        self._state: bool | None = None
+        self._brightness: int | None = None
+        self._white_level: int | None = None
+        self._color_mode: ColorMode | None = None
+        self._color_temp_kelvin: int | None = None
+        self._hs_color: tuple[float, float] | None = None
+        self._rgbw_color: tuple[int, int, int, int] | None = None
         self._determine_features()
 
     def _determine_features(self) -> None:
@@ -273,12 +274,12 @@ class DaliCenterLightGroup(LightEntity):
         self._name = f"{group.name}"
         self._unique_id = f"{group.group_id}"
         self._available = True
-        self._state: Optional[bool] = False
-        self._brightness: Optional[int] = 0
+        self._state: bool | None = False
+        self._brightness: int | None = 0
         self._color_mode = ColorMode.RGBW
-        self._color_temp_kelvin: Optional[int] = 1000
-        self._hs_color: Optional[tuple[float, float]] = None
-        self._rgbw_color: Optional[tuple[int, int, int, int]] = None
+        self._color_temp_kelvin: int | None = 1000
+        self._hs_color: tuple[float, float] | None = None
+        self._rgbw_color: tuple[int, int, int, int] | None = None
         self._supported_color_modes = {
             ColorMode.COLOR_TEMP,
             ColorMode.RGBW

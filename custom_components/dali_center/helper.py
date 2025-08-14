@@ -4,8 +4,7 @@
 def find_set_differences(
     list1: list, list2: list, attr_name: str
 ) -> tuple[list, list]:
-    """
-    Calculate the difference between two object lists.
+    """Calculate the difference between two object lists.
 
     Args:
         - list1: First list of objects

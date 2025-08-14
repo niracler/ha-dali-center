@@ -1,12 +1,14 @@
 """Entity discovery and selection helpers for config flow."""
 
 import logging
-from typing import Any, Optional
+from typing import Any
+
+from PySrDaliGateway import DaliGateway, DeviceType, GroupType, SceneType
+from PySrDaliGateway.exceptions import DaliGatewayError
 import voluptuous as vol
 
 from homeassistant.helpers import config_validation as cv
-from PySrDaliGateway import DaliGateway, DeviceType, GroupType, SceneType
-from PySrDaliGateway.exceptions import DaliGatewayError
+
 from ..types import ConfigData
 
 _LOGGER = logging.getLogger(__name__)
@@ -85,7 +87,7 @@ class EntityDiscoveryHelper:
         devices: list,
         groups: list,
         scenes: list,
-        existing_selections: Optional[dict[str, list]] = None,
+        existing_selections: dict[str, list] | None = None,
         show_diff: bool = False
     ) -> vol.Schema:
         """Prepare entity selection schema."""
@@ -99,7 +101,7 @@ class EntityDiscoveryHelper:
             } if existing_selections else set()
 
             for device in devices:
-                label = f"{device["name"]}"
+                label = f"{device['name']}"
                 if show_diff and existing_selections and \
                         device["unique_id"] not in existing_device_ids:
                     label = f"[NEW] {label}"
@@ -112,7 +114,7 @@ class EntityDiscoveryHelper:
                 for device in existing_selections["devices"]:
                     if device["unique_id"] not in current_device_ids:
                         device_options[device["unique_id"]] = \
-                            f"[REMOVED] {device["name"]}"
+                            f"[REMOVED] {device['name']}"
 
             # Default selection
             if existing_selections is None:
@@ -136,8 +138,7 @@ class EntityDiscoveryHelper:
             } if existing_selections else set()
 
             for group in groups:
-                label = f"{group["name"]} (Channel {
-                    group["channel"]}, Group {group["id"]})"
+                label = f"{group['name']} (Channel {group['channel']}, Group {group['id']})"
                 if show_diff and existing_selections and \
                         group["unique_id"] not in existing_ids:
                     label = f"[NEW] {label}"
@@ -149,8 +150,9 @@ class EntityDiscoveryHelper:
                 current_ids = {g["unique_id"] for g in groups}
                 for group in existing_selections["groups"]:
                     if group["unique_id"] not in current_ids:
-                        group_options[group["unique_id"]] = \
-                            f"[REMOVED] {group["name"]}"
+                        group_options[
+                            group["unique_id"]
+                        ] = f"[REMOVED] {group['name']}"
 
             # Default selection
             if existing_selections is None:
