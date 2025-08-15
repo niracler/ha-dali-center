@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-08-15
+
+### Added
+
+- Enhanced Event entities with native device trigger support for panel buttons (#21)
+- Device trigger integration for improved automation workflow (#21)
+
+### Fixed
+
+- Simplified automation creation process by replacing inconsistent Button entities (#21)
+
+### Technical
+
+- **BREAKING CHANGE**: Removed Panel Button entities in favor of Event entities with device triggers (#21)
+- Users need to refresh entities via Options flow to get new Event entities
+- Updated PySrDaliGateway dependency to v0.5.1 for enhanced event handling
+
 ## [0.4.0] - 2025-08-06
 
 ### Added
@@ -138,7 +155,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DALI Control panels (2-Key, 4-Key, 6-Key, 8-Key)
 - DALI Groups and Scenes
 
-[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/maginawin/ha-dali-center/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/maginawin/ha-dali-center/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/maginawin/ha-dali-center/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/maginawin/ha-dali-center/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/maginawin/ha-dali-center/compare/v0.1.2...v0.2.0
